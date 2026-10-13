@@ -4,690 +4,787 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Birthday Surprise!</title>
+<title>Happy Birthday!</title>
 
 <style>
-* { box-sizing: border-box; }
-
 :root {
-  --pink: #ffb6c9;
-  --purple: #c9b6ff;
-  --cream: #fff5df;
-  --ink: #59485f;
+  --cream: #fff9e9;
+  --teal: #9bd8d8;
+  --blue: #a8c8e8;
+  --dark: #26374a;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: "Trebuchet MS", sans-serif;
-  color: var(--ink);
-  background: #16172b;
-  overflow-x: hidden;
+  font-family: Georgia, serif;
+  color: var(--dark);
+  background: #251d36;
+  text-align: center;
 }
 
 button {
   font: inherit;
   cursor: pointer;
+  border: 2px solid white;
+  border-radius: 18px;
+  padding: 12px 19px;
+  background: #b9e3e5;
+  color: var(--dark);
+  box-shadow: 0 4px 0 #7fb9c0;
+  transition: transform .2s, background .2s;
 }
 
-#room {
-  position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-  isolation: isolate;
-  background:
-    radial-gradient(ellipse at 50% 10%, #fff0d2 0%, transparent 48%),
-    linear-gradient(#f8dce8 0%, #fcebdc 68%, #d9b9aa 68%, #b88d82 100%);
-  filter: brightness(.12);
-  transition: filter 2s ease;
+button:hover {
+  transform: translateY(-2px);
+  background: #d8f2f0;
 }
 
-#room.lit { filter: brightness(1); }
-
-.wall {
-  position: absolute;
-  inset: 0 0 32% 0;
-  background-image:
-    radial-gradient(#ffffff80 1.5px, transparent 1.5px);
-  background-size: 38px 38px;
-  opacity: .45;
-  pointer-events: none;
+button:focus-visible {
+  outline: 3px solid #6950a5;
+  outline-offset: 3px;
 }
 
-.floor {
-  position: absolute;
-  bottom: 0;
-  height: 32%;
-  width: 100%;
-  background: repeating-linear-gradient(
-    90deg, #00000008 0 2px, transparent 2px 100px
-  );
-  pointer-events: none;
-}
-
-.window {
-  position: absolute;
-  top: 8%;
-  left: 7%;
-  width: 19%;
-  height: 27%;
-  border: 9px solid #fff5df;
-  border-radius: 60px 60px 8px 8px;
-  background: linear-gradient(#c2dafa, #fdf0db);
-  box-shadow: inset 0 0 0 3px #dfb9b7;
-}
-
-.window::before,
-.window::after {
-  content: "";
-  position: absolute;
-  background: #fff5df;
-}
-
-.window::before {
-  width: 7px;
-  height: 100%;
-  left: 50%;
-}
-
-.window::after {
-  height: 7px;
-  width: 100%;
-  top: 50%;
+.hidden {
+  display: none !important;
 }
 
 #intro {
   position: fixed;
-  z-index: 100;
   inset: 0;
-  display: grid;
-  place-items: center;
-  background: #121326;
-  color: white;
-  text-align: center;
-  padding: 24px;
-  transition: opacity 1.5s ease, visibility 1.5s;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at top, #71628f, #251d36 75%);
 }
 
-#intro.hidden {
-  opacity: 0;
-  visibility: hidden;
+.intro-card {
+  width: min(520px, 100%);
+  padding: 30px 24px;
+  border: 2px solid #d8eeee;
+  border-radius: 28px;
+  background: var(--cream);
+  box-shadow: 0 15px 60px #120d20aa;
+}
+
+.intro-card h1 {
+  font-size: clamp(2rem, 7vw, 3rem);
+}
+
+.intro-card p {
+  line-height: 1.7;
+}
+
+.intro-card li {
+  text-align: left;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+#room {
+  min-height: 100vh;
+  padding: 24px 15px 50px;
+  background: #f5e8cf;
+  position: relative;
+  overflow: hidden;
+  filter: brightness(.12);
+  transition: filter 1.2s ease;
+}
+
+#room.lit {
+  filter: brightness(1);
+}
+
+h1, h2 {
+  line-height: 1.25;
+}
+
+.subtitle {
+  line-height: 1.6;
+  max-width: 650px;
+  margin: 10px auto 22px;
+}
+
+#decorationPanel {
+  max-width: 760px;
+  margin: 20px auto;
+  padding: 18px;
+  border-radius: 22px;
+  background: #ffffffc9;
+  border: 2px dashed #8abfc4;
+}
+
+.emoji-picker {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: 14px 0;
+}
+
+.emoji-choice {
+  font-size: 1.7rem;
+  min-width: 51px;
+  min-height: 51px;
+  padding: 5px;
+  border: 2px solid #c6dbe6;
+  box-shadow: none;
+  background: white;
+}
+
+.emoji-choice.selected {
+  border-color: #3e8f9a;
+  background: #d9f0f0;
+  box-shadow: 0 0 0 3px #a8d9dc;
+}
+
+#selectedHint {
+  min-height: 24px;
+  margin: 8px 0;
+}
+
+#roomScene {
+  position: relative;
+  width: min(760px, 100%);
+  height: 390px;
+  margin: 22px auto;
+  overflow: hidden;
+  border: 5px solid #d8c4a4;
+  border-radius: 18px;
+  background: linear-gradient(
+    to bottom,
+    #dcecf5 0%,
+    #dcecf5 68%,
+    #c9a982 68%,
+    #c9a982 100%
+  );
+  box-shadow: 0 10px 24px #74516c26;
+  cursor: crosshair;
+}
+
+.window {
+  position: absolute;
+  top: 30px;
+  left: 8%;
+  width: 145px;
+  height: 125px;
+  background: #a8d9e8;
+  border: 8px solid #fff9e9;
+  box-shadow: inset 0 0 0 3px #c3dfe5;
+  overflow: hidden;
+}
+
+.window::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid #fff9e9;
+}
+
+.window::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 5px solid #fff9e9;
+}
+
+.sun {
+  position: absolute;
+  right: 16%;
+  top: 24px;
+  font-size: 48px;
+}
+
+.sofa {
+  position: absolute;
+  bottom: 42px;
+  left: 12%;
+  width: 40%;
+  height: 95px;
+  border-radius: 28px 28px 12px 12px;
+  background: #72b6b4;
+  border: 5px solid #458f91;
+}
+
+.sofa::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 43%;
+  border-left: 4px solid #458f91;
+}
+
+.table {
+  position: absolute;
+  bottom: 35px;
+  right: 9%;
+  width: 27%;
+  height: 15px;
+  border-radius: 8px;
+  background: #9a704d;
+}
+
+.table::after {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 18%;
+  width: 64%;
+  height: 58px;
+  border-left: 9px solid #9a704d;
+  border-right: 9px solid #9a704d;
+}
+
+#decorationCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
   pointer-events: none;
 }
 
-#intro h1 {
-  font-size: clamp(2rem, 7vw, 4rem);
-  margin-bottom: 10px;
+.placed-emoji {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  line-height: 1;
+  pointer-events: none;
+  animation: popIn .35s ease-out;
+  filter: drop-shadow(0 2px 1px #00000015);
 }
 
-#intro p { color: #d7cfe9; }
-
-.main-button,
-.tool-button {
-  border: 0;
-  border-radius: 999px;
-  padding: 13px 23px;
-  background: #fff0f5;
-  color: #754f72;
-  box-shadow: 0 4px 0 #d6a4bb;
-  transition: transform .2s, box-shadow .2s;
+@keyframes popIn {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
-.main-button:hover,
-.tool-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 #d6a4bb;
+#continueButton {
+  margin: 12px auto 24px;
+  font-size: 1.05rem;
 }
 
-#toolbar {
-  position: relative;
-  z-index: 20;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 20px 12px;
+#delivery {
+  margin: 28px auto;
+  padding: 18px 10px;
 }
 
-.tool-button { padding: 10px 16px; }
-
-#decorPanel {
-  display: none;
-  position: relative;
-  z-index: 20;
-  margin: 0 auto;
-  width: min(92%, 540px);
-  padding: 15px;
-  background: #fffaf0ef;
-  border: 2px solid white;
-  border-radius: 22px;
-  text-align: center;
-  box-shadow: 0 8px 25px #6c435322;
+#deliveryBox {
+  display: inline-block;
+  font-size: 88px;
+  cursor: pointer;
+  transition: transform .3s;
+  animation: arrive .8s ease-out;
 }
 
-#decorPanel.show { display: block; }
+#deliveryBox:hover {
+  transform: scale(1.08) rotate(-3deg);
+}
 
-#choices {
+@keyframes arrive {
+  from {
+    transform: translateX(120vw) rotate(20deg);
+  }
+  to {
+    transform: translateX(0) rotate(0);
+  }
+}
+
+#cakeScene {
+  padding: 20px 10px;
+  margin: 20px auto;
+  max-width: 650px;
+  border-radius: 24px;
+  background: var(--cream);
+  border: 2px solid #b7dadd;
+}
+
+.cake-pieces {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 12px;
-}
-
-.choice {
-  font-size: 1.7rem;
-  background: white;
-  border: 2px solid #f2d5e1;
-  border-radius: 14px;
-  padding: 7px 12px;
-}
-
-.choice.selected {
-  border-color: #b18ae7;
-  background: #f1e8ff;
-}
-
-.zone {
-  position: absolute;
-  z-index: 5;
-  border: 2px dashed #ffffff00;
-  border-radius: 20px;
-  transition: background .2s, border .2s;
-}
-
-.zone.ready {
-  border-color: #fff;
-  background: #ffffff28;
-  cursor: pointer;
-}
-
-.zone.ready:hover { background: #ffffff60; }
-
-#zoneLeft {
-  left: 4%;
-  top: 39%;
-  width: 24%;
-  height: 28%;
-}
-
-#zoneTop {
-  left: 32%;
-  top: 16%;
-  width: 38%;
-  height: 22%;
-}
-
-#zoneRight {
-  right: 4%;
-  top: 39%;
-  width: 24%;
-  height: 28%;
-}
-
-.placed {
-  position: absolute;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  animation: pop .35s ease-out;
-  pointer-events: none;
-  filter: drop-shadow(0 3px 2px #60406025);
-}
-
-@keyframes pop {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
-}
-
-#delivery {
-  position: absolute;
-  z-index: 30;
-  left: -150px;
-  bottom: 10%;
-  font-size: clamp(4rem, 10vw, 6rem);
-  background: transparent;
-  border: 0;
-  opacity: 0;
-  transition: left 2s cubic-bezier(.2,.8,.2,1), opacity .5s;
-  filter: drop-shadow(0 7px 4px #67454a35);
-}
-
-#delivery.arrived {
-  left: calc(50% - 45px);
-  opacity: 1;
-}
-
-#delivery.opened {
-  transform: scale(.65);
-  opacity: 0;
-  pointer-events: none;
-}
-
-#birthdayScene {
-  position: absolute;
-  z-index: 10;
-  left: 50%;
-  top: 47%;
-  transform: translate(-50%, -50%);
-  width: min(90%, 580px);
-  text-align: center;
-  display: none;
-}
-
-#birthdayScene.show { display: block; }
-
-#banner {
-  font-size: clamp(1.8rem, 6vw, 3.6rem);
-  color: #e65f92;
-  text-shadow: 2px 3px white, 4px 5px #cda7e9;
-  margin: 0 0 18px;
-  animation: bannerIn 1s ease both;
-}
-
-@keyframes bannerIn {
-  from {
-    opacity: 0;
-    transform: translateY(-35px) scale(.7);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-#cakeArea {
-  position: relative;
-  display: inline-block;
-  margin: 0 auto;
-}
-
-#cake {
-  font-size: clamp(6rem, 18vw, 10rem);
-  line-height: 1.2;
-  filter: drop-shadow(0 8px 4px #73465c30);
-  transition: opacity .3s, transform .3s;
-}
-
-#cake.eaten {
-  opacity: 0;
-  transform: scale(.7) rotate(-12deg);
+  margin: 25px auto;
 }
 
 .cakePiece {
-  position: absolute;
-  font-size: 2.2rem;
-  opacity: 0;
-  pointer-events: none;
+  display: inline-block;
+  font-size: clamp(38px, 8vw, 65px);
+  transition: opacity .3s, transform .3s;
 }
 
 .cakePiece.gone {
-  opacity: 1;
-  animation: pieceGone .7s forwards;
+  opacity: 0;
+  transform: translateY(35px) rotate(35deg) scale(.3);
 }
 
-@keyframes pieceGone {
-  to {
-    transform:
-      translate(var(--dx), var(--dy))
-      rotate(100deg) scale(.2);
-    opacity: 0;
-  }
-}
-
-#eatButton {
-  display: none;
-  margin-top: 14px;
-}
-
-#eatButton.show { display: inline-block; }
-
-#balloons {
+#balloonSky {
   position: fixed;
-  z-index: 40;
-  bottom: -120px;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
+  inset: 0;
+  z-index: 30;
   pointer-events: none;
+  overflow: hidden;
 }
 
-#balloons span {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  animation: floatUp 5s ease-in forwards;
+.balloon {
+  position: absolute;
+  bottom: -100px;
+  font-size: 50px;
+  animation: floatUp 2s ease-in forwards;
 }
 
 @keyframes floatUp {
   0% {
-    transform: translateY(0) rotate(0);
-    opacity: 0;
+    transform: translateY(0) rotate(-8deg);
+    opacity: 1;
   }
-  10% { opacity: 1; }
-  85% { opacity: 1; }
   100% {
-    transform: translateY(-120vh) rotate(25deg);
+    transform: translateY(-115vh) rotate(15deg);
     opacity: 0;
   }
 }
 
 #letterArea {
-  position: relative;
-  z-index: 25;
-  text-align: center;
-  padding: 22px 12px 45px;
-  margin-top: 56vh;
+  max-width: 700px;
+  margin: 30px auto 0;
+  padding: 25px 12px;
+}
+
+#surpriseMessage {
+  font-size: clamp(1.7rem, 5vw, 2.7rem);
+  margin: 20px 0;
+  animation: popIn .6s ease-out;
 }
 
 #envelope {
-  font-size: 4.5rem;
-  margin-bottom: 8px;
-  filter: drop-shadow(0 4px 3px #60406030);
+  display: block;
+  margin: 20px auto;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  font-size: clamp(100px, 25vw, 160px);
+  padding: 8px;
+  animation: envelopeFloat 2s ease-in-out infinite;
 }
 
-#letterButton { display: none; }
+@keyframes envelopeFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
 
-#letterButton.show { display: inline-block; }
+#envelope:hover {
+  transform: scale(1.08);
+}
+
+#letterOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: #172637c9;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s;
+}
+
+#letterOverlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 #letterPaper {
-  display: none;
-  width: min(90%, 560px);
-  margin: 18px auto;
-  padding: 30px clamp(20px, 6vw, 45px);
+  width: min(620px, 100%);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 28px 24px;
+  border: 1px solid #d6c7a7;
+  border-radius: 5px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #fffaf0 0,
+    #fffaf0 31px,
+    #e9dfcc 32px
+  );
+  box-shadow: 0 18px 70px #0006;
   text-align: left;
   white-space: pre-wrap;
-  line-height: 1.8;
-  font-family: Georgia, serif;
+  line-height: 32px;
+  transform: translateY(90px) scale(.72);
+  transform-origin: center bottom;
+  opacity: 0;
+  transition: transform .65s cubic-bezier(.2,.8,.2,1),
+              opacity .5s;
+}
+
+#letterOverlay.open #letterPaper {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.letter-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.letter-top h2 {
+  margin: 0;
+}
+
+#closeLetter {
+  padding: 6px 12px;
+  box-shadow: none;
+  background: #d9e9ed;
+}
+
+#letterText {
   font-size: 1.05rem;
-  color: #56465b;
-  background: #fffdf5;
-  border: 1px solid #f2dfbd;
-  box-shadow: 0 10px 30px #62445b25;
-  border-radius: 5px;
+  overflow-wrap: anywhere;
 }
 
-#letterPaper.show {
-  display: block;
-  animation: paperIn .8s ease both;
+footer {
+  margin-top: 30px;
+  font-size: .9rem;
+  opacity: .8;
 }
 
-@keyframes paperIn {
-  from {
-    opacity: 0;
-    transform: translateY(25px) rotate(2deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(0);
-  }
-}
-
-#letterText { min-height: 60px; }
-
-#status {
-  min-height: 1.5em;
-  margin: 8px;
-  font-size: .95rem;
-}
-
-@media (max-width: 600px) {
-  #zoneLeft {
-    left: 2%;
-    width: 26%;
+@media (max-width: 480px) {
+  #roomScene {
+    height: 330px;
   }
 
-  #zoneRight {
-    right: 2%;
-    width: 26%;
+  .window {
+    width: 105px;
+    height: 100px;
   }
 
-  #zoneTop {
-    left: 30%;
-    width: 40%;
+  .sofa {
+    height: 75px;
   }
 
-  #letterArea { margin-top: 58vh; }
+  #letterPaper {
+    padding: 20px 16px;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- WELCOME SCREEN -->
 <div id="intro">
-  <div>
-    <div style="font-size:4rem">🌙</div>
-    <h1>A little surprise...</h1>
-    <p>Someone has a birthday to celebrate.</p>
-    <button class="main-button" id="lightsButton">
-      ✨ Turn on lights
-    </button>
+  <div class="intro-card">
+    <h1>🎉 A Birthday Surprise 🎉</h1>
+    <p>Someone made something special just for you.</p>
+
+    <h2>How to play</h2>
+    <ol>
+      <li>Turn on the lights to reveal the room.</li>
+      <li>Choose an emoji, then click the room to place it.</li>
+      <li>Click Continue when you're ready.</li>
+      <li>Get your delivery and open the present.</li>
+      <li>Eat the cake, watch the balloons, and discover your final surprise.</li>
+      <li>Click the envelope to open your letter.</li>
+    </ol>
+
+    <p>Ready? Let's celebrate! ✨</p>
+    <button id="lightsButton">Turn on the lights 💡</button>
   </div>
 </div>
 
 <main id="room">
-  <div class="wall"></div>
-  <div class="floor"></div>
-  <div class="window"></div>
+  <h1>Happy Birthday!</h1>
+  <p class="subtitle">
+    Welcome to your little birthday party! Make this room extra special.
+  </p>
 
-  <header id="toolbar">
-    <button class="tool-button" id="decorateButton">
-      🎀 Decorate
-    </button>
-    <button class="tool-button" id="deliveryButton">
-      📦 Get delivery
-    </button>
-  </header>
+  <section id="decorationPanel">
+    <h2>🎨 Decorate the room</h2>
+    <p>Choose an emoji, then click anywhere in the room to place it.</p>
 
-  <section id="decorPanel">
-    <strong>Choose a decoration, then tap a glowing area!</strong>
-    <div id="choices">
-      <button class="choice" data-decor="🎈">🎈</button>
-      <button class="choice" data-decor="⭐">⭐</button>
-      <button class="choice" data-decor="🌸">🌸</button>
-      <button class="choice" data-decor="🦋">🦋</button>
-      <button class="choice" data-decor="🎀">🎀</button>
-      <button class="choice" data-decor="💖">💖</button>
-    </div>
-    <p id="status">Pick your favorite decoration!</p>
-  </section>
+    <div class="emoji-picker" id="emojiPicker">
+      <!-- Birthday -->
+      <button class="emoji-choice selected" data-emoji="🎈" aria-label="Balloon">🎈</button>
+      <button class="emoji-choice" data-emoji="🎉" aria-label="Party popper">🎉</button>
+      <button class="emoji-choice" data-emoji="🎊" aria-label="Confetti">🎊</button>
+      <button class="emoji-choice" data-emoji="🎂" aria-label="Birthday cake">🎂</button>
+      <button class="emoji-choice" data-emoji="🎁" aria-label="Gift">🎁</button>
+      <button class="emoji-choice" data-emoji="🕯️" aria-label="Candle">🕯️</button>
+      <button class="emoji-choice" data-emoji="⭐" aria-label="Star">⭐</button>
+      <button class="emoji-choice" data-emoji="✨" aria-label="Sparkles">✨</button>
 
-  <div class="zone" id="zoneLeft"></div>
-  <div class="zone" id="zoneTop"></div>
-  <div class="zone" id="zoneRight"></div>
+      <!-- Music and instruments -->
+      <button class="emoji-choice" data-emoji="🎵" aria-label="Music note">🎵</button>
+      <button class="emoji-choice" data-emoji="🎶" aria-label="Music notes">🎶</button>
+      <button class="emoji-choice" data-emoji="🎼" aria-label="Musical score">🎼</button>
+      <button class="emoji-choice" data-emoji="🎹" aria-label="Piano">🎹</button>
+      <button class="emoji-choice" data-emoji="🎸" aria-label="Guitar">🎸</button>
+      <button class="emoji-choice" data-emoji="🎻" aria-label="Violin">🎻</button>
+      <button class="emoji-choice" data-emoji="🪕" aria-label="Banjo">🪕</button>
 
-  <button id="delivery" aria-label="Open birthday package">
-    🎁
-  </button>
+      <!-- Science and microbiology -->
+      <button class="emoji-choice" data-emoji="🔬" aria-label="Microscope">🔬</button>
+      <button class="emoji-choice" data-emoji="🧪" aria-label="Test tube">🧪</button>
+      <button class="emoji-choice" data-emoji="🧬" aria-label="DNA">🧬</button>
+      <button class="emoji-choice" data-emoji="⚛️" aria-label="Atom">⚛️</button>
+      <button class="emoji-choice" data-emoji="🧫" aria-label="Petri dish">🧫</button>
+      <button class="emoji-choice" data-emoji="🦠" aria-label="Microbe">🦠</button>
 
-  <section id="birthdayScene">
-    <h1 id="banner">🎉 HAPPY BIRTHDAY! 🎉</h1>
+      <!-- Math -->
+      <button class="emoji-choice" data-emoji="🧮" aria-label="Abacus">🧮</button>
+      <button class="emoji-choice" data-emoji="📐" aria-label="Triangle ruler">📐</button>
+      <button class="emoji-choice" data-emoji="📏" aria-label="Ruler">📏</button>
+      <button class="emoji-choice" data-emoji="➕" aria-label="Plus sign">➕</button>
+      <button class="emoji-choice" data-emoji="➖" aria-label="Minus sign">➖</button>
+      <button class="emoji-choice" data-emoji="✖️" aria-label="Multiplication sign">✖️</button>
+      <button class="emoji-choice" data-emoji="➗" aria-label="Division sign">➗</button>
+      <button class="emoji-choice" data-emoji="π" aria-label="Pi">π</button>
+      <button class="emoji-choice" data-emoji="√" aria-label="Square root">√</button>
+      <button class="emoji-choice" data-emoji="∑" aria-label="Summation symbol">∑</button>
 
-    <div id="cakeArea">
-      <div id="cake">🎂</div>
-
-      <span class="cakePiece"
-        style="top:10%;left:5%;--dx:-100px;--dy:-80px">
-        🍰
-      </span>
-
-      <span class="cakePiece"
-        style="top:30%;right:0;--dx:100px;--dy:-50px">
-        🍰
-      </span>
-
-      <span class="cakePiece"
-        style="bottom:0;left:10%;--dx:-70px;--dy:80px">
-        🍰
-      </span>
-
-      <span class="cakePiece"
-        style="bottom:5%;right:10%;--dx:90px;--dy:80px">
-        🍰
-      </span>
+      <!-- Flowers -->
+      <button class="emoji-choice" data-emoji="🌸" aria-label="Cherry blossom">🌸</button>
+      <button class="emoji-choice" data-emoji="🌼" aria-label="Blossom">🌼</button>
+      <button class="emoji-choice" data-emoji="🌻" aria-label="Sunflower">🌻</button>
+      <button class="emoji-choice" data-emoji="🌷" aria-label="Tulip">🌷</button>
+      <button class="emoji-choice" data-emoji="🌹" aria-label="Rose">🌹</button>
     </div>
 
-    <div>
-      <button class="main-button" id="eatButton">
-        🍴 Eat the cake
-      </button>
+    <p id="selectedHint" aria-live="polite">Selected: 🎈</p>
+    <button id="clearDecorations">Clear decorations</button>
+  </section>
+
+  <div id="roomScene" aria-label="Click to place a decoration">
+    <div class="window"></div>
+    <div class="sun">☀️</div>
+    <div class="sofa"></div>
+    <div class="table"></div>
+    <div id="decorationCanvas"></div>
+  </div>
+
+  <p id="roomHint">Choose your favorite decorations and place them around the room!</p>
+  <button id="continueButton">Continue to your surprise ➜</button>
+
+  <!-- DELIVERY -->
+  <section id="delivery" class="hidden">
+    <h2>📦 There's a delivery for you!</h2>
+    <p>Hmm... I wonder what's inside.</p>
+    <button id="getDelivery">Get delivery 📬</button>
+
+    <div id="packageArea" class="hidden">
+      <button id="deliveryBox" aria-label="Open birthday package">🎁</button>
+      <p>Your surprise has arrived! Click the present to open it.</p>
     </div>
   </section>
 
-  <div id="balloons"></div>
+  <!-- CAKE -->
+  <section id="cakeScene" class="hidden">
+    <h2>A birthday cake, just for you! 🍰</h2>
+    <p>Every birthday needs something sweet.</p>
 
-  <section id="letterArea">
-    <div id="envelope">💌</div>
-    <p>A little letter, just for you...</p>
+    <div class="cake-pieces" id="cakePieces">
+      <span class="cakePiece">🍰</span>
+      <span class="cakePiece">🍰</span>
+      <span class="cakePiece">🍰</span>
+      <span class="cakePiece">🍰</span>
+      <span class="cakePiece">🍰</span>
+      <span class="cakePiece">🍰</span>
+    </div>
 
-    <button class="main-button" id="letterButton">
-      💌 Open letter
-    </button>
-
-    <article id="letterPaper">
-      <div id="letterText"></div>
-    </article>
+    <button id="eatButton">Eat the cake 😋</button>
   </section>
+
+  <!-- FINAL SURPRISE -->
+  <section id="letterArea" class="hidden">
+    <h2 id="surpriseMessage">Oh! What's this?? 👀</h2>
+    <p>Someone left you a little note...</p>
+    <button id="envelope" aria-label="Open your birthday letter">💌</button>
+    <p>Click the envelope to open your letter.</p>
+  </section>
+
+  <footer>Made just for your birthday! 🎉</footer>
 </main>
 
+<div id="balloonSky" aria-hidden="true"></div>
+
+<!-- LETTER POP-UP -->
+<div id="letterOverlay" role="dialog" aria-modal="true" aria-label="Birthday letter">
+  <article id="letterPaper">
+    <div class="letter-top">
+      <h2>A letter for you 💌</h2>
+      <button id="closeLetter">Close ✕</button>
+    </div>
+    <div id="letterText"></div>
+  </article>
+</div>
+
 <script>
-// EDIT YOUR BIRTHDAY MESSAGE HERE!
-const birthdayMessage = `Dear friend,
+// =====================================================
+// EDIT THE BIRTHDAY LETTER HERE
+// =====================================================
+// For each new birthday, change the name and message below.
+// Keep the quotation marks, backticks, and braces.
+// You can write the message on multiple lines.
+// Then commit the updated index.html file to GitHub.
 
-Happy birthday!! 🎂💗
+const recipient = {
+  name: "Stacey",
+  message: `HAPPY BIRTHDAY, STACEY!! 🎂🎉
 
-I hope your special day is filled with laughter,
-little surprises, and all the things that make you happy.
+I hope you have the most amazing birthday,
+filled with happiness, laughter, and memories
+you'll treasure for a long time.
 
-Thank you for being such an amazing friend.
-I'm so glad I got to know you, and I hope this next
-year brings you lots of wonderful memories.
+Thank you for being such a wonderful friend.
+I hate PE, as you probably can tell by now,
+but it has become one of my favorite classes 
+because I get to see you there :)
+I hope this next year brings you so many
+beautiful surprises and exciting adventures!
 
-Never forget how special you are!
+From your friend,
+Zixin`
+};
 
-With lots of love,
-Your friend 💌`;
+document.title = "Happy Birthday!";
 
-const room = document.getElementById("room");
+// =====================================================
+// GET PAGE ELEMENTS
+// =====================================================
+
 const intro = document.getElementById("intro");
-const decorPanel = document.getElementById("decorPanel");
-const status = document.getElementById("status");
-const delivery = document.getElementById("delivery");
-const birthdayScene = document.getElementById("birthdayScene");
+const room = document.getElementById("room");
+const roomScene = document.getElementById("roomScene");
+const decorationCanvas = document.getElementById("decorationCanvas");
+const selectedHint = document.getElementById("selectedHint");
+const packageArea = document.getElementById("packageArea");
+const cakeScene = document.getElementById("cakeScene");
 const eatButton = document.getElementById("eatButton");
-const letterButton = document.getElementById("letterButton");
-const letterPaper = document.getElementById("letterPaper");
+const letterArea = document.getElementById("letterArea");
+const envelope = document.getElementById("envelope");
+const letterOverlay = document.getElementById("letterOverlay");
 const letterText = document.getElementById("letterText");
+const balloonSky = document.getElementById("balloonSky");
 
-let selectedDecor = "";
-let delivered = false;
+let selectedEmoji = "🎈";
 let cakeEaten = false;
 let letterOpened = false;
+let typingTimer = null;
 
-// 1. Turn on the lights.
+// =====================================================
+// TURN ON THE LIGHTS
+// =====================================================
+
 document.getElementById("lightsButton").addEventListener("click", () => {
-  room.classList.add("lit");
   intro.classList.add("hidden");
+  room.classList.add("lit");
 });
 
-// 2. Turn decoration mode on or off.
-document.getElementById("decorateButton").addEventListener("click", () => {
-  decorPanel.classList.toggle("show");
+// =====================================================
+// CHOOSE AND PLACE DECORATIONS
+// =====================================================
 
-  const active = decorPanel.classList.contains("show");
-
-  document.querySelectorAll(".zone").forEach(zone => {
-    zone.classList.toggle("ready", active);
-  });
-
-  status.textContent = active
-    ? "Choose a decoration, then tap a glowing area!"
-    : "Decoration mode closed.";
-});
-
-// Select a decoration.
-document.querySelectorAll(".choice").forEach(button => {
+document.querySelectorAll(".emoji-choice").forEach(button => {
   button.addEventListener("click", () => {
-    selectedDecor = button.dataset.decor;
+    selectedEmoji = button.dataset.emoji;
 
-    document.querySelectorAll(".choice").forEach(b => {
-      b.classList.toggle("selected", b === button);
+    document.querySelectorAll(".emoji-choice").forEach(item => {
+      item.classList.toggle("selected", item === button);
     });
 
-    status.textContent = "Now tap an outlined area to place it!";
+    selectedHint.textContent = `Selected: ${selectedEmoji}`;
   });
 });
 
-// Place decorations in designated areas.
-document.querySelectorAll(".zone").forEach(zone => {
-  zone.addEventListener("click", () => {
-    if (!selectedDecor) {
-      status.textContent = "Pick a decoration first!";
-      return;
-    }
+roomScene.addEventListener("click", event => {
+  const rect = roomScene.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
 
-    const decoration = document.createElement("span");
-    decoration.className = "placed";
-    decoration.textContent = selectedDecor;
+  const decoration = document.createElement("span");
+  decoration.className = "placed-emoji";
+  decoration.textContent = selectedEmoji;
+  decoration.style.left = `${x}px`;
+  decoration.style.top = `${y}px`;
 
-    const bounds = zone.getBoundingClientRect();
-    const x = Math.random() * Math.max(0, bounds.width - 50);
-    const y = Math.random() * Math.max(0, bounds.height - 50);
+  decorationCanvas.appendChild(decoration);
+});
 
-    decoration.style.left = x + "px";
-    decoration.style.top = y + "px";
+document.getElementById("clearDecorations").addEventListener("click", () => {
+  decorationCanvas.replaceChildren();
+});
 
-    zone.appendChild(decoration);
-    status.textContent = "So cute! Choose another decoration or area.";
+// =====================================================
+// CONTINUE TO DELIVERY
+// =====================================================
+
+document.getElementById("continueButton").addEventListener("click", () => {
+  document.getElementById("delivery").classList.remove("hidden");
+  document.getElementById("continueButton").classList.add("hidden");
+
+  document.getElementById("delivery").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
   });
 });
 
-// 3. Send the delivery package into the room.
-document.getElementById("deliveryButton").addEventListener("click", () => {
-  if (delivered) return;
+// =====================================================
+// DELIVERY AND CAKE
+// =====================================================
 
-  delivered = true;
-  decorPanel.classList.remove("show");
-
-  document.querySelectorAll(".zone").forEach(zone => {
-    zone.classList.remove("ready");
-  });
-
-  delivery.classList.add("arrived");
-  status.textContent = "Your surprise has arrived! Click the package!";
+document.getElementById("getDelivery").addEventListener("click", () => {
+  packageArea.classList.remove("hidden");
+  document.getElementById("getDelivery").classList.add("hidden");
 });
 
-// 4. Open the package and reveal the cake.
-delivery.addEventListener("click", () => {
-  if (!delivered || birthdayScene.classList.contains("show")) return;
+document.getElementById("deliveryBox").addEventListener("click", () => {
+  packageArea.classList.add("hidden");
+  cakeScene.classList.remove("hidden");
 
-  delivery.classList.add("opened");
-  birthdayScene.classList.add("show");
-  eatButton.classList.add("show");
-
-  launchBalloons();
-  status.textContent = "Surprise!! Happy birthday! 🎉";
+  cakeScene.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
 });
 
-// Float balloons up the screen.
-function launchBalloons() {
-  const balloonBox = document.getElementById("balloons");
-  balloonBox.innerHTML = "";
+function sendUpBalloons() {
+  const balloonEmojis = ["🎈", "🎈", "⭐", "🎈", "🎉", "🎈", "✨"];
 
-  const balloons = [
-    "🎈", "🎈", "💗", "🎈",
-    "🎈", "💜", "🎈", "🎈"
-  ];
+  balloonEmojis.forEach((emoji, index) => {
+    const balloon = document.createElement("span");
+    balloon.className = "balloon";
+    balloon.textContent = emoji;
+    balloon.style.left = `${5 + Math.random() * 90}%`;
+    balloon.style.animationDelay = `${index * 0.12}s`;
 
-  balloons.forEach((balloon, index) => {
-    const span = document.createElement("span");
-    span.textContent = balloon;
-    span.style.animationDelay = (index * 0.32) + "s";
-    balloonBox.appendChild(span);
+    balloonSky.appendChild(balloon);
+    balloon.addEventListener("animationend", () => balloon.remove());
   });
-
-  setTimeout(() => {
-    balloonBox.innerHTML = "";
-  }, 8000);
 }
 
-// 5. Eat the cake piece by piece.
 eatButton.addEventListener("click", () => {
   if (cakeEaten) return;
 
@@ -698,46 +795,64 @@ eatButton.addEventListener("click", () => {
   const pieces = [...document.querySelectorAll(".cakePiece")];
 
   pieces.forEach((piece, index) => {
-    setTimeout(() => {
-      piece.classList.add("gone");
-    }, index * 650);
+    setTimeout(() => piece.classList.add("gone"), index * 140);
   });
 
-  setTimeout(() => {
-    document.getElementById("cake").classList.add("eaten");
-  }, pieces.length * 650 + 400);
+  sendUpBalloons();
 
   setTimeout(() => {
-    birthdayScene.style.display = "none";
-    letterButton.classList.add("show");
-    document.getElementById("envelope").textContent = "✉️";
+    cakeScene.classList.add("hidden");
+    letterArea.classList.remove("hidden");
 
-    document.getElementById("letterArea").scrollIntoView({
+    letterArea.scrollIntoView({
       behavior: "smooth",
       block: "center"
     });
-  }, pieces.length * 650 + 1200);
+  }, 2100);
 });
 
-// 6. Open the letter and type out your message.
-letterButton.addEventListener("click", () => {
+// =====================================================
+// OPEN THE ENVELOPE AND REVEAL THE LETTER
+// =====================================================
+
+function openLetter() {
   if (letterOpened) return;
 
   letterOpened = true;
-  letterButton.style.display = "none";
-  letterPaper.classList.add("show");
+  letterText.textContent = "";
+  letterOverlay.classList.add("open");
 
   let i = 0;
 
   function typeNextCharacter() {
-    if (i < birthdayMessage.length) {
-      letterText.textContent += birthdayMessage.charAt(i);
+    if (!letterOpened) return;
+
+    if (i < recipient.message.length) {
+      letterText.textContent += recipient.message.charAt(i);
       i++;
-      setTimeout(typeNextCharacter, 32);
+      typingTimer = setTimeout(typeNextCharacter, 24);
     }
   }
 
-  typeNextCharacter();
+  setTimeout(typeNextCharacter, 350);
+}
+
+envelope.addEventListener("click", openLetter);
+
+document.getElementById("closeLetter").addEventListener("click", () => {
+  letterOverlay.classList.remove("open");
+
+  if (typingTimer) clearTimeout(typingTimer);
+  letterOpened = false;
+});
+
+letterOverlay.addEventListener("click", event => {
+  if (event.target === letterOverlay) {
+    letterOverlay.classList.remove("open");
+
+    if (typingTimer) clearTimeout(typingTimer);
+    letterOpened = false;
+  }
 });
 </script>
 
